@@ -1,3 +1,4 @@
+/*
 var express        = require("express");
 var mongoose       = require("mongoose");
 var bodyParser     = require("body-parser");
@@ -26,6 +27,39 @@ app.use("/", require("./routes/home"));
 app.use("/contacts", require("./routes/contacts"));
 
 // Port setting
+var port = 3000;
+app.listen(port, function(){
+  console.log("server on! http://localhost:"+port);
+});
+*/
+var express = require("express");
+var mongoose = require("mongoose");
+var bodyParser = require("body-parser"); //node.js의 post요청 데이터 추출
+var methodOverride = require("method-override");//put, delete
+var app = express();
+db.once("open", function(){
+  console.log("DB connected");
+});
+db.on("error", function(){
+  console.log("DB error : ", err);
+});
+
+//other settings
+app.set("view engines", "ejs");
+app.use(express.static(__dirname+"/public"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(methodOverride("_method"));//_method으로 들어오는 값을 바꿈
+
+//DB setting
+mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true});
+var db = mongoose.connection;
+
+//routes
+app.use("/", require("./routes/home"));
+app.use("/contacts", require("./routes/contacts"));
+
+//port setting
 var port = 3000;
 app.listen(port, function(){
   console.log("server on! http://localhost:"+port);
