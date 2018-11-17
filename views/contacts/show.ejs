@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,6 +22,38 @@
       </div>
       <div>
         <label>Phone</label><span><%= contact.phone %></span>
+      </div>
+    </div>
+  </body>
+</html>
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <% include ../partials/nav %>
+
+    <div class="container contact contact-show">
+      <div class = "contact-menu">
+        <a class = "btn btn-default" href = "/contacts">Back</a>
+        <a class = "btn btn-default" href = "/contacts/<%= contact._id %>/edit">Edit</a>
+      <!--a tag로는 get만 가능-->
+      <!--form에서도 post만 가능하기 때문에 ?_method=delete이 action에 query로 추가-->
+        <form action = "/contacts/<%= contact._id %>?_method=delete" method="post">
+          <a class="btn btn-default" href = "#" onclick="confirm('진짜로 지울고양?><')?this.parentElement.submit():null;">Delete</a>
+        </form>
+      <div>
+        <h2>Show</h2>
+        <h3><%= contact.name %></h3>
+        <div>
+          <label>Email</label><span><%= contact.email %></span>
+        </div>
+        <div>
+          <label>Phone</label><span><%= contact.phone %></span>
+        </div>
+      </div>
       </div>
     </div>
   </body>

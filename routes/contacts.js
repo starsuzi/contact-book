@@ -87,8 +87,8 @@ router.post("/", function(req, res){
 
 //show
 router.get("/:id", function(req, res){
-  console.log(req.params.id);
-  console.log(req.params._id);
+  //console.log(req.params.id);
+  //console.log(req.params._id);
   Contact.findOne({_id:req.params.id}, function(err, contact){
     if(err) return res.json(err);
     if (contact === null)
@@ -98,23 +98,28 @@ router.get("/:id", function(req, res){
 });
 
 //edit
-router.get("/:id/edit",function(req, res){
+router.get("/:id/edit", function(req, res){
   //{_id:req.param.id}는 조건으로 쓰고 있다.
   //DB의 contacts collection에서 _id가 req.param.id와 같은 경우가 조건
   Contact.findOne({_id:req.params.id}, function(err, contact){
     if(err) return res.json(err);
     res.render("contacts/edit", {contact:contact});
+    console.log(contact._id);
+    console.log(req.params.id);
   });
 });
 
 //update
-router.put("/:id/update", function(res,req){
+router.put("/:id", function(req, res){
   //첫번째 parameter는 찾을 조건을 object로 입력
   //두번째 parameter는 update할 정보를 object로 입력 data를 찾는다
   //찾은 후 callback함수 호출
   console.log(req.body);
-  Contact.findOneAndUpdate({_id:req.params.id},req.body, function(err, contact){
-    if(err) return res.json;
+  console.log(req.params);
+  Contact.findOneAndUpdate({_id:req.params.id}, req.body, function(err, contact){
+    if(err) return res.json(err);
+    console.log(contact._id);
+    console.log(req.params.id);
     res.redirect("/contacts/"+req.params.id);
   });
 });
@@ -124,6 +129,7 @@ router.delete("/:id", function(req, res){
   Contact.remove({_id:req.params.id}, function(err){
     if(err) return res.json(err);
     res.redirect("/contacts");
+    //console.log('asdfnode');
   });
 });
 
